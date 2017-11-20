@@ -1,5 +1,6 @@
 import React from 'react';
 import fetch from 'node-fetch';
+import Link from 'next/link';
 import {
   Table,
 } from 'semantic-ui-react';
@@ -20,7 +21,11 @@ export default class extends React.Component {
     const rows = this.props.statusCode === 200 ?
       this.props.json.data.map((card => (
         <Table.Row key={card.id}>
-          <Table.Cell>{ card.name }</Table.Cell>
+          <Table.Cell>
+            <Link href={{ pathname: '/card', query: { id: card.id } }}>
+              <a>{ card.name }</a>
+            </Link>
+          </Table.Cell>
           <Table.Cell>{ card.set_name }</Table.Cell>
           <Table.Cell>{ card.mana_cost }</Table.Cell>
           <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
