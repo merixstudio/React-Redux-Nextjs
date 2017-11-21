@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import Link from 'next/link';
 import {
   Table,
+  Header,
 } from 'semantic-ui-react';
 
 import Layout from '../app/Layout';
@@ -31,9 +32,14 @@ export default class extends React.Component {
           <Table.Cell>{ card.mana_cost }</Table.Cell>
           <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
         </Table.Row>
-      ))) : [];
+      ))) : (
+        <Table.Row textAlign="center">
+          <Table.Cell colSpan="4">No cards found :(</Table.Cell>
+        </Table.Row>
+      );
     return (
       <Layout>
+        <Header>Search results:</Header>
         <Table celled>
           <Table.Header>
             <Table.Row>
