@@ -9,7 +9,7 @@ const Layout = ({ children }) => (
     </Head>
     <div style={{
       maxWidth: '960px',
-      margin: '0 auto',
+      margin: '50px auto',
     }}
     >
       { children }
