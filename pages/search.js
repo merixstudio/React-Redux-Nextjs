@@ -10,7 +10,8 @@ import Layout from '../app/Layout';
 export default class extends React.Component {
   static async getInitialProps({ query }) {
     const searchPhrase = query.q;
-    const res = await fetch(`https://api.scryfall.com/cards/search?q=${searchPhrase}`);
+    const selectedFormat = query.f;
+    const res = await fetch(`https://api.scryfall.com/cards/search?q=f:${selectedFormat}+${searchPhrase}`);
     const statusCode = res.status;
     const json = await res.json();
 

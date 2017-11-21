@@ -16,9 +16,19 @@ export default class extends React.Component {
     super(props);
     this.state = {
       searchPhrase: '',
+      selectedFormat: 'standard',
     };
 
+    this.formats = [
+      { key: 'standard', text: 'Standard', value: 'standard' },
+      { key: 'modern', text: 'Modern', value: 'modern' },
+      { key: 'commander', text: 'Commander', value: 'commander' },
+      { key: 'legacy', text: 'Legacy', value: 'legacy' },
+      { key: 'vintage', text: 'Vintage', value: 'vintage' },
+    ];
+
     this.handleSearchPhraseChange = this.handleSearchPhraseChange.bind(this);
+    this.handleFormatChange = this.handleFormatChange.bind(this);
     this.redirectToSearchPage = this.redirectToSearchPage.bind(this);
   }
 
@@ -28,10 +38,16 @@ export default class extends React.Component {
     });
   }
 
+  handleFormatChange(event, control) {
+    this.setState({
+      selectedFormat: control.value,
+    });
+  }
+
   redirectToSearchPage() {
     Router.push({
       pathname: '/search',
-      query: { q: this.state.searchPhrase },
+      query: { q: this.state.searchPhrase, f: this.state.selectedFormat },
     });
   }
 
@@ -48,10 +64,10 @@ export default class extends React.Component {
               content="DevCollege Combo Card Search!"
             />
             <Form>
-              <Form.Field>
-                <label>Search for cards</label>
-                <input placeholder="Type search phrase" value={this.state.searchPhrase} onChange={this.handleSearchPhraseChange} />
-              </Form.Field>
+              <Form.Group>
+                <Form.Input label="Search for cards" placeholder="Type search phrase" width={12} value={this.state.searchPhrase} onChange={this.handleSearchPhraseChange} />
+                <Form.Select label="Format" width={4} value={this.state.selectedFormat} options={this.formats} onChange={this.handleFormatChange} />
+              </Form.Group>
               <Button onClick={this.redirectToSearchPage}>
                 Submit
                 <Icon name="right arrow" />
