@@ -78,13 +78,13 @@ export default class extends React.Component {
                 <Form.Input label="Search for cards" placeholder="Type search phrase" width={12} value={this.state.searchPhrase} onChange={this.handleSearchPhraseChange} />
                 <Form.Select label="Format" width={4} value={this.state.selectedFormat} options={this.formats} onChange={this.handleFormatChange} />
               </Form.Group>
-              <Button onClick={this.findRandomCard}>
-                <Icon name="random" />
-                Random!
-              </Button>
               <Button onClick={this.redirectToSearchPage}>
                 Submit
                 <Icon name="right arrow" />
+              </Button>
+              <Button onClick={this.findRandomCard}>
+                <Icon name="random" />
+                Random!
               </Button>
             </Form>
           </Container>
