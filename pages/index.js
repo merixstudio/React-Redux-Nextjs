@@ -29,6 +29,7 @@ export default class extends React.Component {
 
     this.handleSearchPhraseChange = this.handleSearchPhraseChange.bind(this);
     this.handleFormatChange = this.handleFormatChange.bind(this);
+    this.findRandomCard = this.findRandomCard.bind(this);
     this.redirectToSearchPage = this.redirectToSearchPage.bind(this);
   }
 
@@ -42,6 +43,15 @@ export default class extends React.Component {
     this.setState({
       selectedFormat: control.value,
     });
+  }
+
+  async findRandomCard() {
+    const res = await fetch(`https://api.scryfall.com/cards/random`);
+    const card = await res.json();
+    Router.push({
+      pathname: '/card',
+      query: { id: card.id },
+    })
   }
 
   redirectToSearchPage() {
@@ -68,6 +78,10 @@ export default class extends React.Component {
                 <Form.Input label="Search for cards" placeholder="Type search phrase" width={12} value={this.state.searchPhrase} onChange={this.handleSearchPhraseChange} />
                 <Form.Select label="Format" width={4} value={this.state.selectedFormat} options={this.formats} onChange={this.handleFormatChange} />
               </Form.Group>
+              <Button onClick={this.findRandomCard}>
+                <Icon name="random" />
+                Random!
+              </Button>
               <Button onClick={this.redirectToSearchPage}>
                 Submit
                 <Icon name="right arrow" />
