@@ -4,10 +4,9 @@ import {
   Card,
   Image,
   Icon,
-  Container,
 } from 'semantic-ui-react';
 
-import Layout from '../app/Layout';
+import Layout from '../app/components/Layout';
 
 export default class extends React.Component {
   static async getInitialProps({ query }) {

@@ -9,7 +9,7 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
-import Layout from '../app/Layout';
+import Layout from '../app/components/Layout';
 
 export default class extends React.Component {
   constructor(props) {
@@ -46,12 +46,12 @@ export default class extends React.Component {
   }
 
   async findRandomCard() {
-    const res = await fetch(`https://api.scryfall.com/cards/random`);
+    const res = await fetch('https://api.scryfall.com/cards/random');
     const card = await res.json();
     Router.push({
       pathname: '/card',
       query: { id: card.id },
-    })
+    });
   }
 
   redirectToSearchPage() {

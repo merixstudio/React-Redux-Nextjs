@@ -1,27 +1,26 @@
 import React from 'react';
-import fetch from 'node-fetch';
 import Link from 'next/link';
+import withRedux from 'next-redux-wrapper';
 import {
   Table,
   Header,
 } from 'semantic-ui-react';
 
-import Layout from '../app/Layout';
+import initStore from '../app/store';
+import { fetchCards } from '../app/actions/cardsActions';
+import Layout from '../app/components/Layout';
 
-export default class extends React.Component {
-  static async getInitialProps({ query }) {
+class Search extends React.Component {
+  static async getInitialProps({ store, query }) {
     const searchPhrase = query.q;
     const selectedFormat = query.f;
-    const res = await fetch(`https://api.scryfall.com/cards/search?q=f:${selectedFormat}+${searchPhrase}`);
-    const statusCode = res.status;
-    const json = await res.json();
-
-    return { json, statusCode };
+    await store.dispatch(fetchCards(selectedFormat, searchPhrase));
+    return {};
   }
 
   render() {
-    const rows = this.props.statusCode === 200 ?
-      this.props.json.data.map((card => (
+    const rows = this.props.cards.results.length !== 0 ?
+      this.props.cards.results.map((card => (
         <Table.Row key={card.id}>
           <Table.Cell>
             <Link href={{ pathname: '/card', query: { id: card.id } }}>
@@ -57,3 +56,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default withRedux(initStore, store => ({ cards: store.cards }))(Search);
