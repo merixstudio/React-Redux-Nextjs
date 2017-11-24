@@ -49,8 +49,8 @@ class Search extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            { errors }
             { cards }
+            { errors }
           </Table.Body>
         </Table>
       </Layout>
