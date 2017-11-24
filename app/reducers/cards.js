@@ -31,14 +31,16 @@ function cards(state = initialState, action) {
         isFetching: false,
       };
     }
-    case cardsActionsTypes.RANDOM_CARD_SUCCESS: {
+    case cardsActionsTypes.RANDOM_CARD_SUCCESS:
+    case cardsActionsTypes.CARD_DETAILS_SUCCESS: {
       return {
         ...state,
         details: action.details,
         isFetching: false,
       };
     }
-    case cardsActionsTypes.RANDOM_CARD_ERROR: {
+    case cardsActionsTypes.RANDOM_CARD_ERROR:
+    case cardsActionsTypes.CARD_DETAILS_ERROR: {
       return {
         ...state,
         results: [],
