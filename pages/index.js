@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import withRedux from 'next-redux-wrapper';
 import {
   Button,
   Form,
@@ -9,9 +10,16 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
+import initStore from '../app/store';
+import { fetchRandomCard } from '../app/actions/cardsActions';
 import Layout from '../app/components/Layout';
 
-export default class extends React.Component {
+class Home extends React.Component {
+  static getInitialProps({ store }) {
+    this.store = store;
+    return {};
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,11 +54,10 @@ export default class extends React.Component {
   }
 
   async findRandomCard() {
-    const res = await fetch('https://api.scryfall.com/cards/random');
-    const card = await res.json();
+    await this.props.dispatch(fetchRandomCard());
     Router.push({
       pathname: '/card',
-      query: { id: card.id },
+      query: { id: this.props.cards.details.id },
     });
   }
 
@@ -93,3 +100,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default withRedux(initStore, (store) => ({ cards: store.cards }))(Home);

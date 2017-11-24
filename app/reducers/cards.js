@@ -9,7 +9,8 @@ const initialState = {
 
 function cards(state = initialState, action) {
   switch (action.type) {
-    case cardsActionsTypes.SEARCH_REQUEST: {
+    case cardsActionsTypes.SEARCH_REQUEST:
+    case cardsActionsTypes.RANDOM_CARD_REQUEST: {
       return {
         ...state,
         isFetching: true,
@@ -23,6 +24,21 @@ function cards(state = initialState, action) {
       };
     }
     case cardsActionsTypes.SEARCH_ERROR: {
+      return {
+        ...state,
+        results: [],
+        errors: action.errors,
+        isFetching: false,
+      };
+    }
+    case cardsActionsTypes.RANDOM_CARD_SUCCESS: {
+      return {
+        ...state,
+        details: action.details,
+        isFetching: false,
+      };
+    }
+    case cardsActionsTypes.RANDOM_CARD_ERROR: {
       return {
         ...state,
         results: [],
