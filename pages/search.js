@@ -19,23 +19,23 @@ class Search extends React.Component {
   }
 
   render() {
-    const rows = this.props.cards.results.length !== 0 ?
-      this.props.cards.results.map((card => (
-        <Table.Row key={card.id}>
-          <Table.Cell>
-            <Link href={{ pathname: '/card', query: { id: card.id } }}>
-              <a>{ card.name }</a>
-            </Link>
-          </Table.Cell>
-          <Table.Cell>{ card.set_name }</Table.Cell>
-          <Table.Cell>{ card.mana_cost }</Table.Cell>
-          <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
-        </Table.Row>
-      ))) : (
-        <Table.Row textAlign="center">
-          <Table.Cell colSpan="4">No cards found :(</Table.Cell>
-        </Table.Row>
-      );
+    const cards = this.props.cards.results.map((card => (
+      <Table.Row key={card.id}>
+        <Table.Cell>
+          <Link href={{ pathname: '/card', query: { id: card.id } }}>
+            <a>{ card.name }</a>
+          </Link>
+        </Table.Cell>
+        <Table.Cell>{ card.set_name }</Table.Cell>
+        <Table.Cell>{ card.mana_cost }</Table.Cell>
+        <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
+      </Table.Row>
+    )));
+    const errors = this.props.cards.errors.map((error, index) => (
+      <Table.Row textAlign="center" key={index}>
+        <Table.Cell colSpan="4">{ error }</Table.Cell>
+      </Table.Row>
+    ));
     return (
       <Layout>
         <Header>Search results:</Header>
@@ -49,7 +49,8 @@ class Search extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            { rows }
+            { errors }
+            { cards }
           </Table.Body>
         </Table>
       </Layout>

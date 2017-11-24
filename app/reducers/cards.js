@@ -22,6 +22,14 @@ function cards(state = initialState, action) {
         isFetching: false,
       };
     }
+    case cardsActionsTypes.SEARCH_ERROR: {
+      return {
+        ...state,
+        results: [],
+        errors: action.errors,
+        isFetching: false,
+      };
+    }
     default:
       return state;
   }

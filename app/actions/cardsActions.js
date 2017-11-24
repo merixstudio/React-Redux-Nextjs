@@ -17,6 +17,10 @@ export const fetchCards = (selectedFormat, searchPhrase) => {
     dispatch(searchRequest());
     const response = await fetch(`https://api.scryfall.com/cards/search?q=f:${selectedFormat}+${searchPhrase}`);
     const json = await response.json();
-    return dispatch(searchSuccess(json.data || []));
+    if (json.status === 200) {
+      return dispatch(searchSuccess(json.data));
+    } else {
+      return dispatch(searchError([json.details]));
+    }
   };
 };
