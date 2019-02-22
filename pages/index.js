@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
-import initsStore from '../app/store';
+import { bindActionCreators } from 'redux';
 
 import {
   Button,
@@ -55,12 +55,11 @@ class Home extends React.Component {
   }
 
   async findRandomCard() {
-    const store = this.props.getState();
-    await this.props.dispatch(fetchRandomCard());
+    await this.props.fetchRandomCard();
 
     Router.push({
       pathname: '/card',
-      query: { id: store.cards.details.id },
+      query: { id: this.props.cards.details.id },
     });
   }
 
@@ -104,4 +103,13 @@ class Home extends React.Component {
   }
 }
 
-export default connect(initsStore)(Home);
+const mapStateToProps = state => ({
+  cards: state.cards,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchRandomCard,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+

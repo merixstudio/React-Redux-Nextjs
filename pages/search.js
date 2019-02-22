@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
-import initsStore from '../app/store';
 import {
   Table,
   Header,
@@ -20,8 +19,7 @@ class Search extends React.Component {
   }
 
   render() {
-    const store = this.props.getState();
-    const cards = store.cards.results.map((card => (
+    const cards = this.props.cards.results.map((card => (
       <Table.Row key={card.id}>
         <Table.Cell>
           <Link href={{ pathname: '/card', query: { id: card.id } }}>
@@ -33,7 +31,7 @@ class Search extends React.Component {
         <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
       </Table.Row>
     )));
-    const errors = store.cards.errors.map((error, index) => (
+    const errors = this.props.cards.errors.map((error, index) => (
       <Table.Row textAlign="center" key={index}>
         <Table.Cell colSpan="4">{ error }</Table.Cell>
       </Table.Row>
@@ -52,7 +50,7 @@ class Search extends React.Component {
           </Table.Header>
           <Table.Body>
             { cards }
-            { errors }
+            { this.props.cards.errors && errors }
           </Table.Body>
         </Table>
       </Layout>
@@ -60,4 +58,8 @@ class Search extends React.Component {
   }
 }
 
-export default connect(initsStore)(Search);
+const mapStateToProps = state => ({
+  cards: state.cards,
+});
+
+export default connect(mapStateToProps)(Search);
