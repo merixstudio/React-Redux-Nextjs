@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
+import initsStore from '../app/store';
 import {
   Table,
   Header,
 } from 'semantic-ui-react';
 
-import initStore from '../app/store';
 import { fetchCards } from '../app/actions/cardsActions';
 import Layout from '../app/components/Layout';
 
@@ -15,11 +15,13 @@ class Search extends React.Component {
     const searchPhrase = query.q;
     const selectedFormat = query.f;
     await store.dispatch(fetchCards(selectedFormat, searchPhrase));
+
     return {};
   }
 
   render() {
-    const cards = this.props.cards.results.map((card => (
+    const store = this.props.getState();
+    const cards = store.cards.results.map((card => (
       <Table.Row key={card.id}>
         <Table.Cell>
           <Link href={{ pathname: '/card', query: { id: card.id } }}>
@@ -31,7 +33,7 @@ class Search extends React.Component {
         <Table.Cell>{ card.eur ? `${card.eur}€` : 'N/A' }</Table.Cell>
       </Table.Row>
     )));
-    const errors = this.props.cards.errors.map((error, index) => (
+    const errors = store.cards.errors.map((error, index) => (
       <Table.Row textAlign="center" key={index}>
         <Table.Cell colSpan="4">{ error }</Table.Cell>
       </Table.Row>
@@ -58,4 +60,4 @@ class Search extends React.Component {
   }
 }
 
-export default withRedux(initStore, store => ({ cards: store.cards }))(Search);
+export default connect(initsStore)(Search);

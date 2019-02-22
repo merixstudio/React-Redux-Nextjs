@@ -1,6 +1,8 @@
 import React from 'react';
 import Router from 'next/router';
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
+import initsStore from '../app/store';
+
 import {
   Button,
   Form,
@@ -10,7 +12,6 @@ import {
   Icon,
 } from 'semantic-ui-react';
 
-import initStore from '../app/store';
 import { fetchRandomCard } from '../app/actions/cardsActions';
 import Layout from '../app/components/Layout';
 
@@ -54,10 +55,12 @@ class Home extends React.Component {
   }
 
   async findRandomCard() {
+    const store = this.props.getState();
     await this.props.dispatch(fetchRandomCard());
+
     Router.push({
       pathname: '/card',
-      query: { id: this.props.cards.details.id },
+      query: { id: store.cards.details.id },
     });
   }
 
@@ -101,4 +104,4 @@ class Home extends React.Component {
   }
 }
 
-export default withRedux(initStore, (store) => ({ cards: store.cards }))(Home);
+export default connect(initsStore)(Home);

@@ -1,28 +1,32 @@
 import React from 'react';
-import fetch from 'node-fetch';
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
+import initsStore from '../app/store';
+
 import {
   Card,
   Image,
   Icon,
 } from 'semantic-ui-react';
 
-import initStore from '../app/store';
 import { fetchCardDetails } from '../app/actions/cardsActions';
 import Layout from '../app/components/Layout';
 
 class CardDetails extends React.Component {
   static async getInitialProps({ store, query }) {
     const card = store.getState().cards.details;
+
     if (card.id !== query.id || !card.id) {
       await store.dispatch(fetchCardDetails(query.id));
     }
+
     return {};
   }
 
   render() {
-    const card = this.props.cards.details;
-    const { errors } = this.props.cards;
+    const store = this.props.getState();
+    const card = store.cards.details;
+
+    const { errors } = store.cards;
     return (
       <Layout>
         { card ? <Card style={{ margin: '0 auto' }}>
@@ -48,4 +52,4 @@ class CardDetails extends React.Component {
   }
 }
 
-export default withRedux(initStore, (store) => ({ cards: store.cards }))(CardDetails);
+export default connect(initsStore)(CardDetails);
