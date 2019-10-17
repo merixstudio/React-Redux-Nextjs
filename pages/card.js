@@ -18,7 +18,7 @@ class CardDetails extends React.Component {
       await store.dispatch(fetchCardDetails(query.id));
     }
 
-    return {};
+    return card;
   }
 
   render() {

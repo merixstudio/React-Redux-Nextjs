@@ -13,9 +13,8 @@ class Search extends React.Component {
   static async getInitialProps({ store, query }) {
     const searchPhrase = query.q;
     const selectedFormat = query.f;
-    await store.dispatch(fetchCards(selectedFormat, searchPhrase));
 
-    return {};
+    return await store.dispatch(fetchCards(selectedFormat, searchPhrase));
   }
 
   render() {

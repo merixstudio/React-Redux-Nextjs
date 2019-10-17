@@ -16,11 +16,6 @@ import { fetchRandomCard } from '../app/actions/cardsActions';
 import Layout from '../app/components/Layout';
 
 class Home extends React.Component {
-  static getInitialProps({ store }) {
-    this.store = store;
-    return {};
-  }
-
   constructor(props) {
     super(props);
     this.state = {
