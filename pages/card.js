@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import initsStore from '../app/store';
 
 import {
   Card,
@@ -19,14 +18,13 @@ class CardDetails extends React.Component {
       await store.dispatch(fetchCardDetails(query.id));
     }
 
-    return {};
+    return card;
   }
 
   render() {
-    const store = this.props.getState();
-    const card = store.cards.details;
+    const card = this.props.cards.details;
 
-    const { errors } = store.cards;
+    const { errors } = this.props.cards;
     return (
       <Layout>
         { card ? <Card style={{ margin: '0 auto' }}>
@@ -52,4 +50,9 @@ class CardDetails extends React.Component {
   }
 }
 
-export default connect(initsStore)(CardDetails);
+const mapStateToProps = state => ({
+  cards: state.cards,
+});
+
+export default connect(mapStateToProps)(CardDetails);
+
